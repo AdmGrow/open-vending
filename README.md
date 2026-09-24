@@ -1,30 +1,26 @@
 # open-vending
 
-Hola, soy AdmGrow.
+Proyecto público. Software libre para máquina expendedora (todavía no es hardware real).
 
-Estoy aprendiendo a programar con cursos y tutoriales. Este repo es mi primer intento de un programa para una maquina expendedora (todavia no es hardware real).
-
-Quiero ir de a poco y ver si algo de esto sirve. Si ves un error, decime como si le hablaras a un principiante.
+Licencia MIT. Lee `LEEME_LICENCIA.md` y `LICENSE`.
+Hacé tu versión. Podés usarlo, copiarlo y ganar dinero con lo que armes.
+Sin garantía: cada quien responde por lo que construye.
 
 ## que hay
 
 - `src/controller/fsm.py` — estados simples (idle, credito, vender, error)
-- `src/telemetry/events.py` — un intento de guardar eventos
-- `docs/` — apuntes de lo que fui leyendo
+- `src/telemetry/events.py` — eventos
+- `docs/` — apuntes
 
 ## como lo corro
 
-Python 3. Necesito practicar mas esto.
+Python 3.
 
 ```
 python src/controller/fsm.py
 python src/telemetry/events.py
 ```
 
-## licencia
+## otros repos
 
-MIT. Podes copiarlo y usarlo.
-
-## otros intentos
-
-Voy a ir haciendo repos chicos por tipo de maquina (snacks, frio, etc.) para no mezclar todo aca.
+snacks, tcg, frozen, tobacco, vivero-seedbank — misma licencia.
