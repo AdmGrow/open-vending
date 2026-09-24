@@ -1,6 +1,5 @@
-"""Telemetry event schema for vending machines.
-
-Uplink via MQTT or HTTPS. Offline queue recommended.
+"""Quiero guardar que paso en la maquina (venta, error, etc.).
+Todavia no se si esto se manda por internet. Por ahora solo armo el json.
 """
 from dataclasses import dataclass, asdict
 from datetime import datetime, timezone
@@ -26,7 +25,6 @@ class TelemetryEvent:
         return json.dumps(asdict(self))
 
 
-# Example
 if __name__ == "__main__":
     e = TelemetryEvent.now("vm-001", "sale", {"slot": "A3", "amount": 150, "method": "cashless"})
     print(e.to_json())
