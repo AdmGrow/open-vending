@@ -5,10 +5,15 @@
 AdmGrow es software libre para máquinas expendedoras y vivero.
 El proyecto es público. Vive en GitHub. No es de una persona: es de quien lo use y lo mejore.
 
+**El código está hecho para Linux y Android.**
+Python 3 corre en Linux (banco, Pi, servidor, FSM).
+Android es la base de la pantalla / kiosco. El I/O de la máquina va aparte.
+No es una app de Play Store todavía: es el mismo proyecto pensado para esas dos bases.
+
 Licencia MIT (archivo LICENSE). Se copia, se usa, se fork, se vende.
 Alentamos el software libre y el uso de este código. Ojalá les vaya bien con lo que armen. Sin garantía: no nos hacemos cargo de daños ni de perjudicar a nadie.
 
-Se actualiza un poco todos los días. Invitación abierta a participar: issue, PR o captura de lo que corriste.
+Se actualiza un poco todos los días. Invitación abierta: issue, PR o captura de lo que corriste.
 
 ## Qué hay (repos distintos, no se mezclan)
 
@@ -19,11 +24,11 @@ Se actualiza un poco todos los días. Invitación abierta a participar: issue, P
 - [open-vending-tobacco](https://github.com/AdmGrow/open-vending-tobacco) — age-gate (no se bypassea)
 - [vivero-seedbank](https://github.com/AdmGrow/vivero-seedbank) — lotes de semillas
 
-Hardware: Android como pantalla/kiosco. I/O de máquina aparte. Ver `docs/HARDWARE_ANDROID.md`.
+Hardware: ver `docs/HARDWARE_ANDROID.md`.
 
 ## Qué te invitamos a hacer
 
-- Usá el proyecto.
+- Usá el proyecto en Linux o en un panel Android.
 - Hacé tu versión.
 - Dejá una captura en un issue.
 - Vendé un servicio encima, si sirve.

@@ -1,30 +1,36 @@
-# Hardware — Android como base
+# Hardware — Linux y Android
 
 Repo: open-vending (core). Los demas repos son distintos. No mezclar codigo.
 
 ## Idea
 
-Android es la pantalla y el kiosco. No es el motor.
-Tres cajas: cerebro Android, I/O de maquina, pago/edad.
+El codigo de este proyecto esta hecho para Linux y Android.
 
-El FSM de este repo (`src/controller/fsm.py`) habla por UART o HTTP local.
-No manejar relés desde un Activity.
+- Linux: corre el Python (FSM, telemetria). Banco, Raspberry Pi, panel industrial con Linux.
+- Android: pantalla y kiosco. No es el motor.
+
+Tres cajas: cerebro (Linux o servicio local), UI Android, I/O de maquina.
+
+El FSM (`src/controller/fsm.py`) habla por UART o HTTP local.
+No manejar reles desde un Activity.
 
 ## Etapas
 
-0. Banco — tablet Android 10" en modo kiosco, o Pi + Linux. USB-serial al FSM.
-1. Prototipo — panel PC Android industrial 7–10", 12–24 V, sin bateria, UART x2, GPIO/RS485. Relés optoaislados.
-2. Calle — IP65, −10 a 60 °C. Pago en terminal PCI aparte (PAX/Nayax). No PCI en el mismo SoC que los relés.
+0. Banco — Linux (PC o Pi) + tablet Android 10" en modo kiosco. USB-serial al FSM.
+1. Prototipo — panel PC Android industrial 7–10", 12–24 V, sin bateria, UART x2, GPIO/RS485. Reles optoaislados. O Linux embebido + pantalla Android.
+2. Calle — IP65, -10 a 60 C. Pago en terminal PCI aparte (PAX/Nayax). No PCI en el mismo SoC que los reles.
 
 Android Things no existe mas. Usar Android 11+ industrial + lock task (Device Owner).
 
-## Encaje con este repo
+## Encaje
 
 ```
-[kiosco Android]
-    -> puente UART/HTTP
-    -> fsm.py + telemetry/events.py
-    -> relés / MDB / sensores
+[kiosco Android]     [Linux: fsm.py + events.py]
+        \                    /
+         \                  /
+          UART / HTTP local
+                 |
+          reles / MDB / sensores
 ```
 
 Watchdog: si el Python se cae, no vende.
