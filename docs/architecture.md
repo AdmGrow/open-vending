@@ -1,31 +1,16 @@
-# Architecture
+# apuntes de arquitectura
 
-## Layers
-1. **Hardware / Edge**: ESP32 or Raspberry Pi. MDB master or slave. Local SQLite for inventory and transaction log. Offline-first.
-2. **Controller**: Finite state machine. States: idle, credit, vend, error, out-of-service. Watchdog + self-test.
-3. **Telemetry**: MQTT or HTTPS uplink. Events: sale, stock change, fault, door, cash level, heartbeat. EVA DEX export.
-4. **Compliance**: fail-closed. Age gate, temperature lockout, expiry. One age check per vend.
-5. **Cloud**: Inventory, fleet dashboard, alerts, restock routes, pricing. REST + WebSocket. Not a SaaS bill in v0.1.
-6. **Ops**: GitHub issues + Drive sheet + daily job 09:00 America/Argentina/Buenos_Aires.
+Lo que entendi de tutoriales y repos que mire:
 
-## Data model (v0.1)
-- Product: id, name, price, sku, category
-- Slot: id, product_id, capacity, current_qty, par_level
-- Machine: id, location, status, last_seen
-- Transaction: id, machine_id, slot_id, amount, method, ts
-- Alert: id, machine_id, type, severity, ts
-- TelemetryEvent: machine_id, event_type, payload, ts
+1. La maquina tiene que funcionar aunque no haya internet.
+2. Hay un programa que decide el estado: esperando, hay credito, vende, error.
+3. Despues se pueden mandar ventas y errores a otro lado (eso todavia no lo se bien).
+4. Vi que existe un cable/protocolo que se llama MDB. Todavia no lo probe.
 
-Vertical extras live in sibling repos (expiry, sealed pack, cabinet, age check, seed lot).
+## datos que creo que necesito
 
-## Contracts
-- Edge can vend offline.
-- Tobacco never vends without a passed age check.
-- TCG catalog stores no official marks.
-- Frozen blocks vend if door open or temp out of range.
-- Nursery software does not speak MDB.
+- producto (nombre, precio)
+- slot (lugar en la maquina, cantidad)
+- una venta (cuando alguien compra)
 
-## Non-goals for v0.1
-- No AI recommendations yet.
-- No multi-tenant SaaS billing.
-- No proprietary hardware lock-in.
+Si esto esta mal, acepto correcciones.
