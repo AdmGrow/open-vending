@@ -1,7 +1,7 @@
-"""Vending machine controller — finite state machine scaffold.
+"""Primer intento de estados de la maquina.
 
-States: IDLE, CREDIT, VEND, ERROR, OUT_OF_SERVICE.
-Offline-first. Persists state to a local file.
+Vi esto en un video: idle, hay plata, vende, error.
+Guardo el estado en un json para no perderlo si cierro el programa.
 """
 from enum import Enum, auto
 import json
@@ -20,7 +20,7 @@ class VendingMachine:
     def __init__(self):
         self.state = State.IDLE
         self.credit = 0
-        self.inventory = {}  # slot_id -> qty
+        self.inventory = {}  # slot -> cantidad
         self._load()
 
     def _load(self):
@@ -40,6 +40,7 @@ class VendingMachine:
             }, f)
 
     def insert_credit(self, amount):
+        # si esta rota no acepto plata
         if self.state == State.OUT_OF_SERVICE:
             return False
         self.credit += amount
@@ -53,7 +54,7 @@ class VendingMachine:
         qty = self.inventory.get(slot_id, 0)
         if qty <= 0:
             return False, "out of stock"
-        # price lookup omitted in scaffold
+        # TODO: fijarme el precio, todavia no lo hice
         self.inventory[slot_id] = qty - 1
         self.credit = 0
         self.state = State.IDLE
