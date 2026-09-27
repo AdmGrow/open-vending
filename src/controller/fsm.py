@@ -8,6 +8,7 @@ import json
 import os
 
 STATE_FILE = "machine_state.json"
+PRICES_FILE = "prices.json"
 
 class State(Enum):
     IDLE = auto()
@@ -21,9 +22,17 @@ class VendingMachine:
         self.state = State.IDLE
         self.credit = 0
         self.inventory = {}  # slot -> cantidad
-        # precios fijos por ahora, despues los leo de un archivo
+        # precios: si hay prices.json lo uso, si no quedan los fijos de prueba
         self.prices = {"A1": 100, "A2": 150, "B1": 200}
+        self._load_prices()
         self._load()
+
+    def _load_prices(self):
+        if os.path.exists(PRICES_FILE):
+            with open(PRICES_FILE) as f:
+                data = json.load(f)
+            if isinstance(data, dict) and data:
+                self.prices = data
 
     def _load(self):
         if os.path.exists(STATE_FILE):
@@ -73,4 +82,4 @@ class VendingMachine:
 
 if __name__ == "__main__":
     vm = VendingMachine()
-    print(vm.state, vm.credit)
+    print(vm.state, vm.credit, vm.prices)
