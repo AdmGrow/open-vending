@@ -21,6 +21,8 @@ class VendingMachine:
         self.state = State.IDLE
         self.credit = 0
         self.inventory = {}  # slot -> cantidad
+        # precios fijos por ahora, despues los leo de un archivo
+        self.prices = {"A1": 100, "A2": 150, "B1": 200}
         self._load()
 
     def _load(self):
@@ -54,10 +56,13 @@ class VendingMachine:
         qty = self.inventory.get(slot_id, 0)
         if qty <= 0:
             return False, "out of stock"
-        # TODO: fijarme el precio, todavia no lo hice
+        price = self.prices.get(slot_id, 0)
+        if self.credit < price:
+            return False, "insufficient credit"
         self.inventory[slot_id] = qty - 1
-        self.credit = 0
-        self.state = State.IDLE
+        self.credit -= price
+        if self.credit == 0:
+            self.state = State.IDLE
         self._save()
         return True, "vended"
 
