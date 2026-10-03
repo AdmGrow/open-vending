@@ -65,7 +65,10 @@ class VendingMachine:
         qty = self.inventory.get(slot_id, 0)
         if qty <= 0:
             return False, "out of stock"
-        price = self.prices.get(slot_id, 0)
+        price = self.prices.get(slot_id)
+        # sin precio (o precio 0) no vendo: antes salia gratis
+        if price is None or price <= 0:
+            return False, "no price"
         if self.credit < price:
             return False, "insufficient credit"
         self.inventory[slot_id] = qty - 1
