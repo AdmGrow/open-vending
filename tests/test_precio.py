@@ -1,4 +1,4 @@
-"""Test chico: sin precio no vende.
+"""Test chico: sin precio no vende, y el credito basura no entra.
 
 Correr desde la raiz del repo:
   python tests/test_precio.py
@@ -37,8 +37,20 @@ def test_precio_negativo_no_entra():
     assert limpios == {"A1": 100}
 
 
+def test_credito_cero_o_negativo_no_entra():
+    vm = VendingMachine()
+    vm.credit = 100
+    vm.state = State.IDLE
+    assert vm.insert_credit(0) is False
+    assert vm.insert_credit(-20) is False
+    assert vm.credit == 100 and vm.state == State.IDLE
+    assert vm.insert_credit(50) is True
+    assert vm.credit == 150 and vm.state == State.CREDIT
+
+
 if __name__ == "__main__":
     test_sin_precio_no_vende()
     test_precio_conocido_descuenta()
     test_precio_negativo_no_entra()
+    test_credito_cero_o_negativo_no_entra()
     print("ok")
