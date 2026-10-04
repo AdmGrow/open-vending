@@ -68,6 +68,9 @@ class VendingMachine:
         # si esta rota no acepto plata
         if self.state == State.OUT_OF_SERVICE:
             return False
+        # 0, negativo o texto no son un billete: antes restaba credito
+        if isinstance(amount, bool) or not isinstance(amount, int) or amount <= 0:
+            return False
         self.credit += amount
         self.state = State.CREDIT
         self._save()
