@@ -17,6 +17,19 @@ class State(Enum):
     ERROR = auto()
     OUT_OF_SERVICE = auto()
 
+def precios_validos(data):
+    """Solo dejo slots con precio entero > 0. Si el json trae basura, no la uso."""
+    limpios = {}
+    if not isinstance(data, dict):
+        return limpios
+    for slot, precio in data.items():
+        if isinstance(precio, bool) or not isinstance(precio, int):
+            continue
+        if precio <= 0:
+            continue
+        limpios[str(slot)] = precio
+    return limpios
+
 class VendingMachine:
     def __init__(self):
         self.state = State.IDLE
@@ -31,8 +44,9 @@ class VendingMachine:
         if os.path.exists(PRICES_FILE):
             with open(PRICES_FILE) as f:
                 data = json.load(f)
-            if isinstance(data, dict) and data:
-                self.prices = data
+            limpios = precios_validos(data)
+            if limpios:
+                self.prices = limpios
 
     def _load(self):
         if os.path.exists(STATE_FILE):
