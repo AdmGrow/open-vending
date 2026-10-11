@@ -13,15 +13,21 @@ Sin garantía: cada quien responde por lo que construye.
 - `src/controller/fsm.py` — estados simples (idle, credito, vender, error)
 - `src/telemetry/events.py` — eventos
 - `docs/` — apuntes y hardware Android
+- `prices.example.json` — ejemplo de precios por slot
 
 ## como lo corro
 
 Python 3 en Linux:
 
 ```
+# copiá el ejemplo de precios (opcional, si no usa los fijos de prueba)
+cp prices.example.json prices.json
+
 python src/controller/fsm.py
 python src/telemetry/events.py
 ```
+
+Si existe `prices.json` en la carpeta, lo carga y usa esos precios. Si no, quedan los de prueba (A1=100, A2=150, B1=200).
 
 En Android: la UI en kiosco habla con este proceso por UART o HTTP local. Ver `docs/HARDWARE_ANDROID.md`.
 
