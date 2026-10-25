@@ -48,9 +48,21 @@ def test_credito_cero_o_negativo_no_entra():
     assert vm.credit == 150 and vm.state == State.CREDIT
 
 
+def test_credito_insuficiente_no_vende():
+    vm = VendingMachine()
+    vm.inventory = {"A1": 1}
+    vm.prices = {"A1": 100}
+    vm.state = State.CREDIT
+    vm.credit = 50
+    ok, msg = vm.select("A1")
+    assert ok is False and msg == "not enough credit"
+    assert vm.credit == 50 and vm.inventory["A1"] == 1
+
+
 if __name__ == "__main__":
     test_sin_precio_no_vende()
     test_precio_conocido_descuenta()
     test_precio_negativo_no_entra()
     test_credito_cero_o_negativo_no_entra()
+    test_credito_insuficiente_no_vende()
     print("ok")
