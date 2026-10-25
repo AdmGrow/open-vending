@@ -86,8 +86,6 @@ class VendingMachine:
         # sin precio (o precio 0) no vendo: antes salia gratis
         if price is None or price <= 0:
             return False, "no price"
-        if self.credit < price:
-            return False, "insufficient credit"
         self.inventory[slot_id] = qty - 1
         self.credit -= price
         if self.credit == 0:
@@ -103,3 +101,5 @@ class VendingMachine:
 if __name__ == "__main__":
     vm = VendingMachine()
     print(vm.state, vm.credit, vm.prices)
+    # practica de hoy: sin precio no vendo, ya esta en select
+    print("Hoy practique: si no hay precio no vendo")
