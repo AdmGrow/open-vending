@@ -9,6 +9,7 @@ import os
 
 STATE_FILE = "machine_state.json"
 PRICES_FILE = "prices.json"
+INVENTORY_FILE = "inventory.json"
 
 class State(Enum):
     IDLE = auto()
@@ -30,6 +31,19 @@ def precios_validos(data):
         limpios[str(slot)] = precio
     return limpios
 
+def inventario_valido(data):
+    """Solo dejo cantidades enteras >= 0."""
+    limpios = {}
+    if not isinstance(data, dict):
+        return limpios
+    for slot, qty in data.items():
+        if isinstance(qty, bool) or not isinstance(qty, int):
+            continue
+        if qty < 0:
+            continue
+        limpios[str(slot)] = qty
+    return limpios
+
 class VendingMachine:
     def __init__(self):
         self.state = State.IDLE
@@ -38,6 +52,7 @@ class VendingMachine:
         # precios: si hay prices.json lo uso, si no quedan los fijos de prueba
         self.prices = {"A1": 100, "A2": 150, "B1": 200}
         self._load_prices()
+        self._load_inventory()
         self._load()
 
     def _load_prices(self):
@@ -47,6 +62,15 @@ class VendingMachine:
             limpios = precios_validos(data)
             if limpios:
                 self.prices = limpios
+
+    def _load_inventory(self):
+        # practica de hoy: cargo stock desde inventory.json si existe
+        if os.path.exists(INVENTORY_FILE):
+            with open(INVENTORY_FILE) as f:
+                data = json.load(f)
+            limpios = inventario_valido(data)
+            if limpios:
+                self.inventory = limpios
 
     def _load(self):
         if os.path.exists(STATE_FILE):
@@ -103,6 +127,6 @@ class VendingMachine:
 
 if __name__ == "__main__":
     vm = VendingMachine()
-    print(vm.state, vm.credit, vm.prices)
-    # practica de hoy: sin precio no vendo, ya esta en select
-    print("Hoy practique: si no hay precio no vendo")
+    print(vm.state, vm.credit, vm.prices, vm.inventory)
+    # practica de hoy: cargo inventario desde json si existe
+    print("Hoy practique: cargo el stock desde inventory.json")
