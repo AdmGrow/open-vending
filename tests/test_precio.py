@@ -7,7 +7,7 @@ import os
 import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src", "controller"))
-from fsm import VendingMachine, State, precios_validos
+from fsm import VendingMachine, State, precios_validos, inventario_valido
 
 
 def test_sin_precio_no_vende():
@@ -59,10 +59,16 @@ def test_credito_insuficiente_no_vende():
     assert vm.credit == 50 and vm.inventory["A1"] == 1
 
 
+def test_inventario_negativo_o_texto_no_entra():
+    limpios = inventario_valido({"A1": 5, "A2": -1, "B1": "lleno", "C1": 0})
+    assert limpios == {"A1": 5, "C1": 0}
+
+
 if __name__ == "__main__":
     test_sin_precio_no_vende()
     test_precio_conocido_descuenta()
     test_precio_negativo_no_entra()
     test_credito_cero_o_negativo_no_entra()
     test_credito_insuficiente_no_vende()
+    test_inventario_negativo_o_texto_no_entra()
     print("ok")
