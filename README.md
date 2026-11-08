@@ -29,6 +29,8 @@ python src/telemetry/events.py
 
 Si existe `prices.json` en la carpeta, lo carga y usa esos precios. Si no, quedan los de prueba (A1=100, A2=150, B1=200).
 
+Hoy practicé que el JSON de precios se puede editar sin tocar el código. Sigue siendo de prueba, no hardware real.
+
 En Android: la UI en kiosco habla con este proceso por UART o HTTP local. Ver `docs/HARDWARE_ANDROID.md`.
 
 ## otros repos
